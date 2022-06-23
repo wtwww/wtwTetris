@@ -1,0 +1,128 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Tetris},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Tetris}
+\author{}
+\date{\vspace{-2.5em}2022-06-23}
+
+\begin{document}
+\maketitle
+
+\hypertarget{r-markdown}{%
+\subsection{R Markdown}\label{r-markdown}}
+
+fullTable\textless-totalMatrix() cubes\textless-GnrCubes()
+Gameon\textless-FALSE server \textless- function(input, output,session)
+\{ totalscore\textless-0 bgtable \textless-drawTable()
+active\textless-reactiveVal(FALSE)
+observeEvent(input\(pressedKey,{  if (!is.null(input\)keyPressed) \&\&
+Gameon) \{ active(FALSE) code\textless-input\$keyPressed library(beepr)
+if(code==37) \{ beep(1)
+cubes\textless\textless-MoveLeft(cubes,fullTable) \} if(code==39) \{
+beep(1) cubes\textless\textless-MoveRight(cubes,fullTable) \}
+if(code==32) \{ cubes\textless\textless-MoveDown(cubes,fullTable) \}
+if(code==65) \{ cubes\textless\textless-rotate(cubes,fullTable)
+
+\begin{verbatim}
+  }
+  if(code==68)
+  {
+    cubes<<-rotate(cubes,fullTable)
+  }
+  active(TRUE)
+}
+\end{verbatim}
+
+\})
+
+observe( \{ invalidateLater(1500, session) isolate(\{ if(active()) \{
+bt\textless-UpdateTable(bgtable,cubes\(cubesID)  continueDrop<-checkNextBlock_y(cubes\)cubesID,fullTable)
+if(continueDrop) \{ cubes\(cubesID[,"y"]<<-cubes\)cubesID{[},``y''{]}-1
+rownames(cubes\(cubeMatrix)<<-as.numeric(rownames(cubes\)cubeMatrix))-1
+\} else \{ for (i in
+1:nrow(cubes\(cubesID))  {  if(cubes\)cubesID{[}i,``y''{]}\textgreater20)
+next()
+fullTable{[}as.character(cubes\(cubesID[i,"y"]),as.character(cubes\)cubesID{[}i,``x''{]}){]}\textless\textless-1
+\} score\textless-GetScore(fullTable)
+if(score\(score>0)  {  fullTable<<-score\)tables
+totalscore\textless\textless-totalscore+score\(score  {  output\)ScorePanel
+\textless- renderText(\{paste0(``Score:'',totalscore) \}) \} \}
+bgtable\textless\textless-updateBackGround(fullTable)
+if(endGame(fullTable)) \{ active(FALSE) Gameon\textless\textless-FALSE
+output\(LevelInfo<-renderText("Game Over")  }  cubes<<-GnrCubes()  #active(FALSE)  }  output\)plot
+\textless- renderPlot(\{ bt \}) \} \}) \})
+
+output\(plot <- renderPlot({  bgtable  })  output\)currentTime
+\textless- renderText(\{ invalidateLater(1000, session) paste(``Time:'',
+Sys.time()) \})
+output\(LevelInfo<-renderText("Level 1")  output\)ScorePanel \textless-
+renderText(\{``Score: 0'' \})
+observeEvent(input\(startGame,{active(TRUE)  fullTable<<-totalMatrix()  cubes<<-GnrCubes()  Gameon<<-TRUE  bgtable <<-drawTable()})  observeEvent(input\)endGame,\{
+active(FALSE) Gameon\textless\textless-FALSE \})
+observeEvent(input\(reset,{active(FALSE)  output\)LevelInfo\textless-renderText(``Level
+1'') cubes\textless\textless-GnrCubes() bgtable
+\textless\textless-drawTable() output\$plot \textless- renderPlot(\{
+bgtable \})\}) \}
+
+\end{document}
